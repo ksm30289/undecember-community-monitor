@@ -5,14 +5,16 @@ from crawler.detail import (
     get_floor_content
 )
 
-dc_posts = get_dc_posts()
+print("===== DC =====")
 
-first_dc = dc_posts[0]
+dc = get_dc_posts()[3]
 
-print(first_dc["title"])
+print(dc["title"])
+print(get_dc_content(dc["url"]))
 
-print(
-    get_dc_content(
-        first_dc["url"]
-    )
-)
+print("\n===== FLOOR =====")
+
+floor = get_floor_posts()[0]
+
+print(floor["title"])
+print(get_floor_content(floor["url"]))
