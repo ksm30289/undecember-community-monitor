@@ -24,7 +24,7 @@ def get_floor_posts():
 
     soup = BeautifulSoup(
         response.text,
-        "lxml"
+        "html.parser"
     )
 
     posts = []
