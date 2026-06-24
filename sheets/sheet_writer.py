@@ -52,6 +52,7 @@ def append_post(post):
         post.get("postId", "")
     ])
 
+
 def post_exists(post_id):
 
     sheet = get_sheet()
@@ -59,3 +60,12 @@ def post_exists(post_id):
     ids = sheet.col_values(12)
 
     return post_id in ids
+
+
+def get_existing_post_ids():
+
+    sheet = get_sheet()
+
+    values = sheet.col_values(12)
+
+    return set(values[1:])
