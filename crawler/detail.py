@@ -13,7 +13,11 @@ HEADERS = {
 
 def clean_text(text):
 
-    text = re.sub(r"\n{3,}", "\n\n", text)
+    text = re.sub(
+        r"\n{3,}",
+        "\n\n",
+        text
+    )
 
     return text.strip()
 
@@ -38,31 +42,14 @@ def get_dc_content(url):
     )
 
     if not content_div:
-        return {
-            "content": "",
-            "createdAt": ""
-        }
+        return ""
 
-    content = clean_text(
+    return clean_text(
         content_div.get_text(
             "\n",
             strip=True
         )
     )
-
-    date_tag = soup.select_one(
-        ".gall_date"
-    )
-
-    created_at = ""
-
-    if date_tag:
-        created_at = date_tag.get("title", "")
-
-    return {
-        "content": content,
-        "createdAt": created_at
-    }
 
 
 def get_floor_content(url):
@@ -99,8 +86,10 @@ def get_floor_content(url):
 
     created_at = ""
 
-    # FLOOR 게시일
-    info_text = soup.get_text(" ", strip=True)
+    info_text = soup.get_text(
+        " ",
+        strip=True
+    )
 
     match = re.search(
         r"(\d{4}\.\d{2}\.\d{2})",
@@ -108,6 +97,7 @@ def get_floor_content(url):
     )
 
     if match:
+
         created_at = (
             match.group(1)
             .replace(".", "-")
