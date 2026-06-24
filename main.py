@@ -14,6 +14,7 @@ from sheets.sheet_writer import (
     append_post,
     get_existing_post_ids
 )
+from ai.analyzer import analyze_post
 
 print("수집 시작")
 
@@ -129,18 +130,29 @@ for post in posts:
 
     try:
 
+        print(
+            f"AI 분석 시작: "
+            f"{post['postId']}"
+        )
+
+        post["analysis"] = (
+            analyze_post(post)
+        )
+
         append_post(post)
 
         saved_count += 1
 
         print(
-            f"저장 완료: {post['postId']}"
+            f"저장 완료: "
+            f"{post['postId']}"
         )
 
     except Exception as e:
 
         print(
-            f"저장 실패: {post['postId']} / {e}"
+            f"저장 실패: "
+            f"{post['postId']} / {e}"
         )
 
 print(
