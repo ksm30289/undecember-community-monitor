@@ -37,6 +37,11 @@ def append_post(post):
 
     sheet = get_sheet()
 
+    analysis = post.get(
+        "analysis",
+        {}
+    )
+
     sheet.append_row([
         post.get("collectedAt", ""),
         post.get("createdAt", ""),
@@ -44,11 +49,32 @@ def append_post(post):
         post.get("title", ""),
         post.get("content", ""),
         post.get("url", ""),
-        "",
-        "",
-        "",
-        "",
-        "",
+
+        analysis.get(
+            "sentiment",
+            ""
+        ),
+
+        analysis.get(
+            "topic",
+            ""
+        ),
+
+        analysis.get(
+            "issue",
+            ""
+        ),
+
+        analysis.get(
+            "impact",
+            ""
+        ),
+
+        analysis.get(
+            "summary",
+            ""
+        ),
+
         post.get("postId", "")
     ])
 
