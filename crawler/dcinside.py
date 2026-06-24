@@ -35,6 +35,20 @@ def get_dc_posts():
 
     for row in rows:
 
+        # 공지 제외
+        subject_tag = row.select_one(
+            "td.gall_subject"
+        )
+
+        subject = (
+            subject_tag.get_text(strip=True)
+            if subject_tag
+            else ""
+        )
+
+        if subject == "공지":
+            continue
+
         post_no = row.get("data-no")
 
         if not post_no:
