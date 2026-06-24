@@ -36,17 +36,12 @@ def get_dc_posts():
     for row in rows:
 
         # 공지 제외
-        subject_tag = row.select_one(
-            "td.gall_subject"
+        data_type = row.get(
+            "data-type",
+            ""
         )
 
-        subject = (
-            subject_tag.get_text(strip=True)
-            if subject_tag
-            else ""
-        )
-
-        if subject == "공지":
+        if data_type == "icon_notice":
             continue
 
         post_no = row.get("data-no")
@@ -87,5 +82,9 @@ def get_dc_posts():
             "url": url,
             "createdAt": created_at
         })
+
+    print(
+        f"DC 게시글 수집: {len(posts)}건"
+    )
 
     return posts
