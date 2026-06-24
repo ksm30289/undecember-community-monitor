@@ -4,6 +4,7 @@ from crawler.detail import (
     get_dc_content,
     get_floor_content
 )
+from sheets.sheet_writer import get_sheet
 
 print("===== DC =====")
 
@@ -19,8 +20,23 @@ floor = get_floor_posts()[0]
 print(floor["title"])
 print(get_floor_content(floor["url"]))
 
-from sheets.sheet_writer import get_sheet
-
 sheet = get_sheet()
 
-print(sheet.title)
+print(f"시트 연결 성공: {sheet.title}")
+
+sheet.append_row([
+    "테스트",
+    "2026-06-24",
+    "TEST",
+    "저장 테스트",
+    "본문 테스트",
+    "https://test.com",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "test_001"
+])
+
+print("시트 저장 성공")
