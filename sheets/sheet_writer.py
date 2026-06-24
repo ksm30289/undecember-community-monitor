@@ -31,3 +31,31 @@ def get_sheet():
     return spreadsheet.worksheet(
         SHEET_NAME
     )
+
+
+def append_post(post):
+
+    sheet = get_sheet()
+
+    sheet.append_row([
+        post.get("collectedAt", ""),
+        post.get("createdAt", ""),
+        post.get("source", ""),
+        post.get("title", ""),
+        post.get("content", ""),
+        post.get("url", ""),
+        "",
+        "",
+        "",
+        "",
+        "",
+        post.get("postId", "")
+    ])
+
+def post_exists(post_id):
+
+    sheet = get_sheet()
+
+    ids = sheet.col_values(12)
+
+    return post_id in ids
