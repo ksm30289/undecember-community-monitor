@@ -33,7 +33,15 @@ def get_floor_posts():
         "a.all-link.bbs-detail-link"
     )
 
-    for row in rows:
+   for row in rows:
+
+        data_type = row.get("data-type")
+
+        # 공지 제외
+        if data_type == "icon_notice":
+            continue
+
+        post_no = row.get("data-no")
 
         article_id = row.get("article-id")
 
