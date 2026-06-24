@@ -1,4 +1,7 @@
-from datetime import datetime
+from datetime import (
+    datetime,
+    timedelta
+)
 
 from crawler.dcinside import get_dc_posts
 from crawler.floor import get_floor_posts
@@ -18,6 +21,15 @@ existing_ids = get_existing_post_ids()
 
 posts = []
 
+target_date = (
+    datetime.now()
+    - timedelta(days=1)
+).strftime("%Y-%m-%d")
+
+print(
+    f"수집 대상 날짜: {target_date}"
+)
+
 # DC
 for post in get_dc_posts():
 
@@ -26,13 +38,42 @@ for post in get_dc_posts():
 
     try:
 
-        post["content"] = get_dc_content(
+        detail = get_dc_content(
             post["url"]
         )
 
+        post["content"] = (
+            detail["content"]
+        )
+
+        # DC 날짜 정규화
+        dc_date = post["createdAt"]
+
+        if "." in dc_date:
+
+            try:
+
+                dc_date = datetime.strptime(
+                    dc_date,
+                    "%y.%m.%d"
+                ).strftime(
+                    "%Y-%m-%d"
+                )
+
+            except:
+                continue
+
+        post["createdAt"] = dc_date
+
+        # 어제 글만
+        if dc_date != target_date:
+            continue
+
         post["collectedAt"] = (
             datetime.now()
-            .strftime("%Y-%m-%d %H:%M:%S")
+            .strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
         )
 
         posts.append(post)
@@ -40,7 +81,8 @@ for post in get_dc_posts():
     except Exception as e:
 
         print(
-            f"DC 본문 수집 실패: {post['postId']} / {e}"
+            f"DC 본문 수집 실패: "
+            f"{post['postId']} / {e}"
         )
 
 # FLOOR
@@ -51,13 +93,29 @@ for post in get_floor_posts():
 
     try:
 
-        post["content"] = get_floor_content(
+        detail = get_floor_content(
             post["url"]
         )
 
+        post["content"] = (
+            detail["content"]
+        )
+
+        post["createdAt"] = (
+            detail["createdAt"]
+        )
+
+        if (
+            post["createdAt"]
+            != target_date
+        ):
+            continue
+
         post["collectedAt"] = (
             datetime.now()
-            .strftime("%Y-%m-%d %H:%M:%S")
+            .strftime(
+                "%Y-%m-%d %H:%M:%S"
+            )
         )
 
         posts.append(post)
@@ -65,7 +123,8 @@ for post in get_floor_posts():
     except Exception as e:
 
         print(
-            f"FLOOR 본문 수집 실패: {post['postId']} / {e}"
+            f"FLOOR 본문 수집 실패: "
+            f"{post['postId']} / {e}"
         )
 
 print(
@@ -83,13 +142,15 @@ for post in posts:
         saved_count += 1
 
         print(
-            f"저장 완료: {post['postId']}"
+            f"저장 완료: "
+            f"{post['postId']}"
         )
 
     except Exception as e:
 
         print(
-            f"저장 실패: {post['postId']} / {e}"
+            f"저장 실패: "
+            f"{post['postId']} / {e}"
         )
 
 print(
