@@ -36,6 +36,7 @@ print(
 )
 
 # DC
+# DC
 for post in get_dc_posts():
 
     if post["postId"] in existing_ids:
@@ -43,7 +44,6 @@ for post in get_dc_posts():
 
     try:
 
-        # 목록 날짜 기준
         if post["createdAt"] != target_date:
             continue
 
@@ -51,13 +51,14 @@ for post in get_dc_posts():
             post["url"]
         )
 
+        month, day = (
+            post["createdAt"]
+            .split(".")
+        )
+
         post["createdAt"] = (
-            datetime.strptime(
-                post["createdAt"],
-                "%y.%m.%d"
-            ).strftime(
-                "%Y-%m-%d"
-            )
+            f"{datetime.now().year}-"
+            f"{month}-{day}"
         )
 
         post["collectedAt"] = (
