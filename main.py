@@ -1,18 +1,18 @@
 from crawler.dcinside import get_dc_posts
 from crawler.floor import get_floor_posts
-
-
-print("===== DC =====")
+from crawler.detail import (
+    get_dc_content,
+    get_floor_content
+)
 
 dc_posts = get_dc_posts()
 
-for post in dc_posts[:5]:
-    print(post)
+first_dc = dc_posts[0]
 
-print()
-print("===== FLOOR =====")
+print(first_dc["title"])
 
-floor_posts = get_floor_posts()
-
-for post in floor_posts[:5]:
-    print(post)
+print(
+    get_dc_content(
+        first_dc["url"]
+    )
+)
