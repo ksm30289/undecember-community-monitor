@@ -24,7 +24,7 @@ posts = []
 target_date = (
     datetime.now()
     - timedelta(days=1)
-).strftime("%y.%m.%d")
+).strftime("%m.%d")
 
 target_floor_date = (
     datetime.now()
