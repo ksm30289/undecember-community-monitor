@@ -24,7 +24,7 @@ def get_dc_posts():
 
     soup = BeautifulSoup(
         response.text,
-        "lxml"
+        "html.parser"
     )
 
     posts = []
