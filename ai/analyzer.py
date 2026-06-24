@@ -61,8 +61,7 @@ def analyze_post(post):
                 "role": "user",
                 "content": text
             }
-        ],
-        temperature=0
+        ]
     )
 
     content = (
